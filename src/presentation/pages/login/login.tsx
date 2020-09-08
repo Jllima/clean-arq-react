@@ -22,7 +22,7 @@ const Login: React.FC = () => {
           <h2>LOGIN</h2>
           <Input type="email" name="email" placeholder="Digite o seu email"/>
           <Input type="password" name="password" placeholder="Digite a sua senha"/>
-          <button type="submit" className={Styles.submit}>Entrar</button>
+          <button disabled data-testid='submit' type="submit" className={Styles.submit}>Entrar</button>
           <span className={Styles.link}>Criar conta</span>
           <FormStatus />
         </form>
