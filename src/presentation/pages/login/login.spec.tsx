@@ -134,6 +134,7 @@ describe('Login Component', () => {
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     simulateValidSubmit(sut)
     const errorWrap = sut.getByTestId('error-wrap')
+    // await render errorwrap
     await waitFor(() => errorWrap)
     const mainError = sut.getByTestId('main-error')
     expect(mainError.textContent).toBe(error.message)
