@@ -1,10 +1,12 @@
 import { FieldValidation } from '@/validation/protocols'
 import { InvalidFieldError } from '@/validation/errors/invalid-field-error'
 
-export const EmailValidation: FieldValidation = {
-  validate (field: string, value: string): Error {
+export class EmailValidation implements FieldValidation {
+  constructor (readonly field: string) {}
+
+  validate (value: string): Error {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
-    return (!value || emailRegex.test(value)) ? null : new InvalidFieldError(field)
+    return (!value || emailRegex.test(value)) ? null : new InvalidFieldError(this.field)
   }
 }
