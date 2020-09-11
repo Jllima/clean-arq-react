@@ -3,6 +3,7 @@ import { InvalidFieldError } from '@/validation/errors/invalid-field-error'
 
 export const EmailValidation: FieldValidation = {
   validate (field: string, value: string): Error {
-    return new InvalidFieldError(field)
+    const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    return emailRegex.test(value) ? null : new InvalidFieldError(field)
   }
 }
