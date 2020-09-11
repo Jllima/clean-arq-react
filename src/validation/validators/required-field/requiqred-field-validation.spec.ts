@@ -5,12 +5,12 @@ import faker from 'faker'
 describe('RequiredFieldValidation', () => {
   test('Should return error if field is empty', () => {
     const sut = RequiredFiedlValidation
-    const error = sut.validate('email', '')
+    const error = sut.validate('field_name', '')
     expect(error).toEqual(new RequiredFieldError())
   })
   test('Should return false if field is not empty', () => {
     const sut = RequiredFiedlValidation
-    const error = sut.validate('email', faker.random.words())
+    const error = sut.validate('field_name', faker.random.words())
     expect(error).toBeFalsy()
   })
 })
