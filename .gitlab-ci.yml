@@ -11,4 +11,3 @@ test_eslint:
   script:
     - eslint 'src/**'
     - npm run test:ci
-    - npm run test:coveralls
