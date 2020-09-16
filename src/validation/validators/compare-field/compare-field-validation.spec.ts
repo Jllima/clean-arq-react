@@ -7,9 +7,9 @@ type sutTypes = {
   fieldName: string
 }
 
-const makeSut = (): sutTypes => {
+const makeSut = (valueToCompare: string): sutTypes => {
   const fieldName = faker.random.word()
-  const sut = new CompareFieldValidation(fieldName, faker.random.word())
+  const sut = new CompareFieldValidation(fieldName, valueToCompare)
   return {
     sut,
     fieldName
@@ -18,8 +18,16 @@ const makeSut = (): sutTypes => {
 
 describe('CompareFieldValidation', () => {
   test('Should return error if compare is invalid', () => {
-    const { sut, fieldName } = makeSut()
+    const valueToCompare = faker.random.word()
+    const { sut, fieldName } = makeSut(valueToCompare)
     const error = sut.validate(faker.random.word())
     expect(error).toEqual(new InvalidFieldError(fieldName))
+  })
+
+  test('Shold return falsy if password is valid', () => {
+    const valueToCompare = faker.random.word()
+    const { sut } = makeSut(valueToCompare)
+    const error = sut.validate(valueToCompare)
+    expect(error).toBeFalsy()
   })
 })
