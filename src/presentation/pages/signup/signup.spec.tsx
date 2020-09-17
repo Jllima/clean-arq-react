@@ -32,15 +32,29 @@ describe('SignUp Conponent', () => {
     Helper.testChildCount(sut, 'error-wrap', 0)
     Helper.testButtonIsDisabled(sut, 'submit', true)
     Helper.testStatusForField(sut, 'name', validationError)
-    Helper.testStatusForField(sut, 'email', 'Campo obrigatório')
-    Helper.testStatusForField(sut, 'password', 'Campo obrigatório')
-    Helper.testStatusForField(sut, 'passwordConfirmation', 'Campo obrigatório')
+    Helper.testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
+    Helper.testStatusForField(sut, 'passwordConfirmation', validationError)
   })
 
-  test('Shold show name error if validaton fails', () => {
+  test('Shold show email error if validaton fails', () => {
     const validationError = faker.random.word()
     const { sut } = makeSut({ validationError })
-    Helper.populateField(sut, 'name')
-    Helper.testStatusForField(sut, 'name', validationError)
+    Helper.populateField(sut, 'email')
+    Helper.testStatusForField(sut, 'email', validationError)
+  })
+
+  test('Shold show password error if validaton fails', () => {
+    const validationError = faker.random.word()
+    const { sut } = makeSut({ validationError })
+    Helper.populateField(sut, 'password')
+    Helper.testStatusForField(sut, 'password', validationError)
+  })
+
+  test('Shold show passwordConfirmation error if validaton fails', () => {
+    const validationError = faker.random.word()
+    const { sut } = makeSut({ validationError })
+    Helper.populateField(sut, 'passwordConfirmation')
+    Helper.testStatusForField(sut, 'passwordConfirmation', validationError)
   })
 })
