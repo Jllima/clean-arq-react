@@ -3,14 +3,17 @@ import Styles from './signup-styles.scss'
 import { LoginHeader, Input, FormStatus, Footer } from '@/presentation/components'
 import { Context } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccont } from '@/domain/usercases'
+import { AddAccont, SaveAccessToken } from '@/domain/usercases'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
   validation: Validation
   addAccount: AddAccont
+  saveAccessToken: SaveAccessToken
 }
 
-const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Props) => {
+  const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -36,20 +39,29 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.isLoading || state.nameError || state.emailError || state.passwordError || state.passwordConfirmationError) {
-      return
+    try {
+      if (state.isLoading || state.nameError || state.emailError || state.passwordError || state.passwordConfirmationError) {
+        return
+      }
+      setState({
+        ...state,
+        isLoading: true
+      })
+      const account = await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.password
+      })
+      await saveAccessToken.save(account.accessToken)
+      history.replace('/')
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        mainError: error.message
+      })
     }
-
-    setState({
-      ...state,
-      isLoading: true
-    })
-    await addAccount.add({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-      passwordConfirmation: state.password
-    })
   }
 
   return (
