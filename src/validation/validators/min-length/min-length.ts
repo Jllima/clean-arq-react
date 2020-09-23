@@ -1,10 +1,9 @@
+import { InvalidFieldError } from '@/validation/errors/invalid-field-error'
 import { FieldValidation } from '@/validation/protocols'
-import { MinLengthFieldError } from '@/validation/errors'
-
 export class MinLengthValidation implements FieldValidation {
   constructor (readonly field, private readonly minLength: number) {}
 
-  validate (value: string): Error {
-    return value.length >= this.minLength ? null : new MinLengthFieldError(this.field)
+  validate (input: object): Error {
+    return input[this.field]?.length < this.minLength ? new InvalidFieldError(this.field) : null
   }
 }
