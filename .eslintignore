@@ -4,3 +4,4 @@ coverage
 public
 *.scss
 *.json
+src/main/test/cypress/support/index.d.ts
